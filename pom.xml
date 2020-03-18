@@ -15,6 +15,12 @@
     <name>rabbit</name>
     <description>Demo project for Spring Boot</description>
 
+    <modules>
+        <module>consumer</module>
+        <module>producer</module>
+        <module>rabbit-demo</module>
+    </modules>
+
     <properties>
         <java.version>1.8</java.version>
     </properties>
