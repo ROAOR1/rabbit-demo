@@ -1,14 +1,11 @@
 package com.top.rabbit.demo.consumer;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import org.springframework.amqp.rabbit.listener.BlockingQueueConsumer;
+import com.rabbitmq.client.*;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-public class Consumer {
+public class ConsumerDemo {
     public static void main(String[] args) throws IOException, TimeoutException {
         //创建工厂
         ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -25,5 +22,14 @@ public class Consumer {
         channel.queueDeclare("test",true,false,false,null);
 
         //创建消费者
+        Consumer consumer = new DefaultConsumer(channel){
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                String msg = new String(body);
+                System.out.println(msg);
+            }
+        };
+
+        channel.basicConsume("test",true,consumer);
     }
 }
