@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 /**
- * direct交换机
+ * fanout交换机
  */
-public class PeoducerDirectExchange {
+public class ProducerFanoutExchange {
     public static void main(String[] args) throws IOException, TimeoutException {
         //创建工厂
         ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -27,9 +27,9 @@ public class PeoducerDirectExchange {
         Channel channel = connection.createChannel();
 
         //使用exchangeName交换器
-        String exchangeName = "defaultExchange";
-        //指定routingKey
-        String routingKey = "defaultKey";
+        String exchangeName = "fanoutExchange";
+        //不需要指定路由key
+        String routingKey = "";
         channel.basicPublish(exchangeName,routingKey,null,"hello".getBytes());
 
         channel.close();

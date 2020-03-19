@@ -7,10 +7,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-/**
- * direct交换机
- */
-public class PeoducerDirectExchange {
+public class ProducerDemo {
     public static void main(String[] args) throws IOException, TimeoutException {
         //创建工厂
         ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -19,19 +16,16 @@ public class PeoducerDirectExchange {
         connectionFactory.setUsername("guest");
         connectionFactory.setPassword("guest");
 
-        String queueName = "test";
         //通过工厂创建连接
         Connection connection = connectionFactory.newConnection();
 
         //通过连接创建通道
         Channel channel = connection.createChannel();
 
-        //使用exchangeName交换器
-        String exchangeName = "defaultExchange";
-        //指定routingKey
-        String routingKey = "defaultKey";
-        channel.basicPublish(exchangeName,routingKey,null,"hello".getBytes());
+        //通过通道发送信息
+        channel.basicPublish("","test",null,"hello".getBytes());
 
+        //关闭连接
         channel.close();
         connection.close();
     }

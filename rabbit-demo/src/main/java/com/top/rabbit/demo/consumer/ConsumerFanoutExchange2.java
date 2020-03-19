@@ -5,10 +5,7 @@ import com.rabbitmq.client.*;
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
-/**
- * direct交换机
- */
-public class ConsumerDirectExchange {
+public class ConsumerFanoutExchange2 {
     public static void main(String[] args) throws IOException, TimeoutException {
         //创建工厂
         ConnectionFactory connectionFactory = new ConnectionFactory();
@@ -23,12 +20,15 @@ public class ConsumerDirectExchange {
         //通过连接创建通道
         Channel channel = connection.createChannel();
 
-        String exchangeName = "defaultExchange";
-        String exchangeType = "direct";
-        String queueName = "defaultQueue";
-        String routingKey = "defaultKey";
+        String exchangeName = "fanoutExchange";
+        String exchangeType = "fanout";
+        String queueName = "defaultFanout2";
+        //不需要指定路由key
+        String routingKey = "";
 
-        //所有发送到Direct Exchange的消息被转发到RouteKey指定的Queue
+        //所有发送到Topic Exchange的消息被转发到所有关心RouteKey中指定Topic的Queue上
+        //topicExchange将RouteKey和某Topic进行模糊匹配
+
         //声明一个交换机
         channel.exchangeDeclare(exchangeName,exchangeType,true,false,false,null);
         //声明一个队列
