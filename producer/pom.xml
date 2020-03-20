@@ -19,6 +19,13 @@
     </properties>
 
     <dependencies>
+        <!--引入通用模块-->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

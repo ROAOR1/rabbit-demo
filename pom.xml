@@ -19,6 +19,7 @@
         <module>consumer</module>
         <module>producer</module>
         <module>rabbit-demo</module>
+        <module>base</module>
     </modules>
 
     <properties>

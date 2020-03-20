@@ -8,3 +8,13 @@ spring:
     port: 5672
     username: guest
     password: guest
+    listener:
+      simple:
+        retry:
+          enabled: true #是否开启重试
+          initial-interval: 3000ms #重试时间间隔
+          max-attempts: 3 #重试次数
+          max-interval: 15000ms #重试最大时间间隔
+        acknowledge-mode: manual #手动应答
+    publisher-confirms: true
+    publisher-returns: true
