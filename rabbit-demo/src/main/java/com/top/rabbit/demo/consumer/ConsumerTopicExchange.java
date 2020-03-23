@@ -25,16 +25,14 @@ public class ConsumerTopicExchange {
 
         String exchangeName = "topicExchange";
         String exchangeType = "topic";
-        String queueName = "defaultTopic";
+        String queueName = "topicQueue";
+        //这里routingKey使用模糊匹配
         String routingKey = "user.#";
 
-        //所有发送到Topic Exchange的消息被转发到所有关心RouteKey中指定Topic的Queue上
-        //topicExchange将RouteKey和某Topic进行模糊匹配
-
-        //声明一个交换机
+        //声明一个topic类型的交换机
         channel.exchangeDeclare(exchangeName,exchangeType,true,false,false,null);
         //声明一个队列
-        channel.queueDeclare(queueName,false,false,false,null);
+        channel.queueDeclare(queueName,true,false,false,null);
         //建立绑定关系
         channel.queueBind(queueName,exchangeName,routingKey);
 

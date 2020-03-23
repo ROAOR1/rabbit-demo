@@ -23,17 +23,16 @@ public class ConsumerDirectExchange {
         //通过连接创建通道
         Channel channel = connection.createChannel();
 
-        String exchangeName = "defaultExchange";
+        String exchangeName = "directExchange";
         String exchangeType = "direct";
-        String queueName = "defaultQueue";
-        String routingKey = "defaultKey";
+        String queueName = "directQueue";
+        String routingKey = "directKey";
 
-        //所有发送到Direct Exchange的消息被转发到RouteKey指定的Queue
-        //声明一个交换机
+        //声明一个direct类型的交换机
         channel.exchangeDeclare(exchangeName,exchangeType,true,false,false,null);
         //声明一个队列
-        channel.queueDeclare(queueName,false,false,false,null);
-        //建立绑定关系
+        channel.queueDeclare(queueName,true,false,false,null);
+        //建立绑定关系，所有发送到Direct Exchange的消息被转发到RouteKey指定的Queue
         channel.queueBind(queueName,exchangeName,routingKey);
 
         //创建消费者

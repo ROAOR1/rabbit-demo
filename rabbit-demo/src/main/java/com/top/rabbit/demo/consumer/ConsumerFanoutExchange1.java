@@ -27,17 +27,14 @@ public class ConsumerFanoutExchange1 {
 
         String exchangeName = "fanoutExchange";
         String exchangeType = "fanout";
-        String queueName = "defaultFanout1";
+        String queueName = "fanoutQueue1";
         //不需要指定路由key
         String routingKey = "";
 
-        //所有发送到Topic Exchange的消息被转发到所有关心RouteKey中指定Topic的Queue上
-        //topicExchange将RouteKey和某Topic进行模糊匹配
-
-        //声明一个交换机
+        //声明一个fanout类型的交换机
         channel.exchangeDeclare(exchangeName,exchangeType,true,false,false,null);
         //声明一个队列
-        channel.queueDeclare(queueName,false,false,false,null);
+        channel.queueDeclare(queueName,true,false,false,null);
         //建立绑定关系
         channel.queueBind(queueName,exchangeName,routingKey);
 

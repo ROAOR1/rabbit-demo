@@ -22,8 +22,12 @@ public class ProducerDemo {
         //通过连接创建通道
         Channel channel = connection.createChannel();
 
-        //通过通道发送信息
-        channel.basicPublish("","test",null,"hello".getBytes());
+        String exchangeName = "";
+        String routingKey = "defaultQueue";
+        String data = "hello";
+
+        //通过通道发送信息，第三个参数是消息属性，可以配置消息的过期时间
+        channel.basicPublish(exchangeName,routingKey,null,data.getBytes());
 
         //关闭连接
         channel.close();

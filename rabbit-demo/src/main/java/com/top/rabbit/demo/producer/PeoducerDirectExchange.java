@@ -19,18 +19,21 @@ public class PeoducerDirectExchange {
         connectionFactory.setUsername("guest");
         connectionFactory.setPassword("guest");
 
-        String queueName = "test";
         //通过工厂创建连接
         Connection connection = connectionFactory.newConnection();
 
         //通过连接创建通道
         Channel channel = connection.createChannel();
 
-        //使用exchangeName交换器
-        String exchangeName = "defaultExchange";
+        String exchangeName = "directExchange";
+        String exchangeType = "direct";
+        String routingKey = "directKey";
+        String data = "hello";
+
+        //声明交换机
+        channel.exchangeDeclare(exchangeName,exchangeType,true,false,false,null);
         //指定routingKey
-        String routingKey = "defaultKey";
-        channel.basicPublish(exchangeName,routingKey,null,"hello".getBytes());
+        channel.basicPublish(exchangeName,routingKey,null,data.getBytes());
 
         channel.close();
         connection.close();
