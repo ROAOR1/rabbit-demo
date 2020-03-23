@@ -8,3 +8,5 @@ spring:
     port: 5672
     username: guest
     password: guest
+    publisher-confirms: true #confirm回调
+    publisher-returns: true #return回调

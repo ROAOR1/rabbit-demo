@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-@Configuration
+//@Configuration
 public class QueueConfiguration {
 
     @Bean
@@ -24,13 +24,13 @@ public class QueueConfiguration {
         map.put("x-dead-letter-exchange", Constants.DEAD_DIRECT_EXCHANGE);
         //声明队列绑定的路由key
         map.put("x-dead-letter-routing-key", Constants.DEAD_ROUTING_KEY);
-        return new Queue(Constants.DEFAULT_QUEUE,true,false,false,map);
+        return new Queue(Constants.DEFAULT_DIRECT_QUEUE,true,false,false,map);
     }
 
     @Bean
     public Binding directQueueBinding(){
         //将业务队列和交换机绑定，并设置路由键
-        return BindingBuilder.bind(directQueue()).to(defaultDirectExchange()).with(Constants.DEFAULT_ROUTING_KEY);
+        return BindingBuilder.bind(directQueue()).to(defaultDirectExchange()).with(Constants.DEFAULT_DIRECT_ROUTING_KEY);
     }
 
     @Bean
