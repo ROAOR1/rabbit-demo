@@ -8,14 +8,11 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Configuration
 public class DirectExchangeConfig {
-
-    @Bean
-    public DirectExchange defaultExchange(){
-        //直连型交换机，持久化消息，不自动删除
-        return new DirectExchange("test",true,false);
-    }
 
     @Bean
     public DirectExchange defaultDirectExchange(){
@@ -25,8 +22,12 @@ public class DirectExchangeConfig {
 
     @Bean
     public Queue defaultDirectQueue(){
-        //声明队列，持久化消息，非独有，不自动删除
-        return new Queue(Constants.DEFAULT_DIRECT_QUEUE,true,false,false,null);
+        //给普通队列绑定死信交换机，设置路由键
+        Map<String, Object> map = new HashMap<>();
+        map.put("x-dead-letter-exchange", Constants.DEAD_DIRECT_EXCHANGE);
+        map.put("x-dead-letter-routing-key", Constants.DEAD_ROUTING_KEY);
+        //声明队列，持久化消息，非独有，不自动删除，消息属性
+        return new Queue(Constants.DEFAULT_DIRECT_QUEUE,true,false,false,map);
     }
 
     @Bean

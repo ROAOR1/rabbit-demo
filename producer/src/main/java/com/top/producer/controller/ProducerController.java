@@ -13,23 +13,22 @@ public class ProducerController {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @RequestMapping("/sendMsg")
-    public void sendMsg(){
-        String msg = "msg";
-        //发送消息到交换机，并携带路由键
-        rabbitTemplate.convertAndSend("test",Constants.DEFAULT_DIRECT_ROUTING_KEY,msg);
-    }
-
     @RequestMapping("/direct/sendMsg")
     public void directSendMsg(){
         String msg = "direct-msg";
+        MessagePostProcessor processor = (message)->{
+            //设置消息过期时间为3s
+            message.getMessageProperties().setExpiration("3000");
+            return message;
+        };
         //发送消息到交换机，并携带路由键
-        rabbitTemplate.convertAndSend(Constants.DEFAULT_DIRECT_EXCHANGE,Constants.DEFAULT_DIRECT_ROUTING_KEY,msg);
+        rabbitTemplate.convertAndSend(Constants.DEFAULT_DIRECT_EXCHANGE,Constants.DEFAULT_DIRECT_ROUTING_KEY,msg,processor);
     }
 
     @RequestMapping("/topic/man/sendMsg")
     public void topicManSendMsg(){
-        String msg = "topic-man";
+        String msg = "error";
+//        String msg = "topic-man";
         rabbitTemplate.convertAndSend(Constants.DEFAULT_TOPIC_EXCHANGE,Constants.MAN_TOPIC_ROUTING_KEY,msg);
     }
 

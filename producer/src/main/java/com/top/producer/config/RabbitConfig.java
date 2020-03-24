@@ -2,9 +2,7 @@ package com.top.producer.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,9 +21,9 @@ public class RabbitConfig {
         rabbitTemplate.setMandatory(true);
 
         rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
-            //发送成功会触发该回调
+            //成功发送到交换机会触发该回调
             if (ack){
-                //表示消息发送成功，这里不做任何操作
+                //表示消息发送成功，这里不做任何操作，这里只是为了写个注释（手动狗头）
             }else {
                 //表示消息成功发送到服务器，但是没有找到交换器，这里可以记录日志，方便后续处理
                 logger.warn("ConfirmCallback -> 消息发布到交换器失败，错误原因为：{}", cause);
