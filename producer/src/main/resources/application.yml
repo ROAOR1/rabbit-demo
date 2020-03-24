@@ -4,7 +4,9 @@ spring:
   application:
     name: producer
   rabbitmq:
-    host: 127.0.0.1
+    host: 127.0.0.1 #配置rabbitmq的地址
     port: 5672
     username: guest
     password: guest
+    publisher-confirms: true #confirm回调
+    publisher-returns: true #return回调
