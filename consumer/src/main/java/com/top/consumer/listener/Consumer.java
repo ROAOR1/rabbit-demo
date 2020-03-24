@@ -13,27 +13,27 @@ import java.io.IOException;
 public class Consumer {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-//    @RabbitListener(queues = Constants.DEFAULT_DIRECT_QUEUE)
-//    public void directConsumer(String msg, Channel channel,Message message) throws IOException {
-////        //死信队列测试使用
-////        channel.basicNack(message.getMessageProperties().getDeliveryTag(),false,false);
-//
-//        try{
-//            //这里表示消息消费成功
-//            System.out.println("直连型交换机收到消息："+msg);
-//            //确认消息，false表示不批量处理
-//            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
-//        }catch (Exception e){
-//            //这里表示消息消费失败，当消息消费失败时，如果没有进行处理，会导致MQ中Unacked的消息越来越多，最终占用内存越来越大
-//
-//            //方案一：返回NACK，并重新放入队列，这种情况可能会导致死循环
-////            channel.basicNack(message.getMessageProperties().getDeliveryTag(),false,true);
-//
-//            //方案二，这里也返回ACK，记录报错日志，后续根据日志进行恢复处理
-//            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
-//            logger.error("消息消费失败：{}", e.getMessage());
-//        }
-//    }
+    @RabbitListener(queues = Constants.DEFAULT_DIRECT_QUEUE)
+    public void directConsumer(String msg, Channel channel,Message message) throws IOException {
+//        //死信队列测试使用
+//        channel.basicNack(message.getMessageProperties().getDeliveryTag(),false,false);
+
+        try{
+            //这里表示消息消费成功
+            System.out.println("直连型交换机收到消息："+msg);
+            //确认消息，false表示不批量处理
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+        }catch (Exception e){
+            //这里表示消息消费失败，当消息消费失败时，如果没有进行处理，会导致MQ中Unacked的消息越来越多，最终占用内存越来越大
+
+            //方案一：返回NACK，并重新放入队列，这种情况可能会导致死循环
+//            channel.basicNack(message.getMessageProperties().getDeliveryTag(),false,true);
+
+            //方案二，这里也返回ACK，记录报错日志，后续根据日志进行恢复处理
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+            logger.error("消息消费失败：{}", e.getMessage());
+        }
+    }
 
     @RabbitListener(queues = Constants.MAN_TOPIC_QUEUE)
     public void topicManConsumer(String msg, Channel channel,Message message) throws IOException {
